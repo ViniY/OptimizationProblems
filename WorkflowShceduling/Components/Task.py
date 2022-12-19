@@ -12,4 +12,3 @@ class Task:
         disk_req = None
         sla = None
         depend_on = []
-
