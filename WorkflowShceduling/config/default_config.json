@@ -1,0 +1,38 @@
+{   
+    "Problem":{
+        "deadline_constrained" : "False",
+        "num_objective": 1,
+        "objectives": ["makespan"],
+        "maximize": "False"
+    },
+
+    "Generator_Settings": {
+        "num_per_dag": 25,
+        "workflow_type": "None",
+        "max_end_point": 3,
+        "alpha": 1,
+        "beta" : 1.0,
+        "task_num_variation": 0.1
+    },
+    "Tasks_Settings" : {
+        "task_size": 200,
+        "task_size_std" : 0.2,
+        "memory_req": 400,
+        "memory_req_std" : 0.3,
+        "disk_req": 500,
+        "disk_req_std": 0.1,
+        "dttm": 0,
+        "sla" : "2022-12-21 02:49:05.851986+00:00"
+    },
+    "Algorithm_Parameter": {
+        "algorithm": {
+            "name": "GP",
+            "generation": 200,
+            "population": 1024,
+            "max_depth": 17
+        },
+        "competing_algorithms": ["a1", "a2", "a3"]
+
+    }
+}
+
