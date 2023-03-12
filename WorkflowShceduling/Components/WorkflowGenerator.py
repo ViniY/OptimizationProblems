@@ -4,8 +4,6 @@ import random, math, argparse
 import numpy as np
 from numpy import random
 from numpy.random.mtrand import sample
-
-# from matplotlib import pyplot as plt
 import json
 import sys
 
@@ -17,36 +15,42 @@ from matplotlib import pyplot as plt
 
 class DAGGenerator:
     def __init__(self, **args) -> None:
+        # Define the mode of Generator:
+        # 1. Read Mode -> read the written DAGs
+        # 2. Random Mode -> Randomly Generate a DAG based on the parameters given
+        # 3. Follow some patterns
+        self.mode = args.get("Generate_Mode", "Random")
+
         # Here defines the pattern of the workflow
-        self.num_tasks = args.get("num_tasks", 25)
+        self.num_tasks = args.get("num_tasks", 30)
         self.workflow_type = args.get("workflow_type", None)
         self.task_list: dict = args.get("task_list", [])
-        self.max_end_point = args.get("max_end_point", 1)
+        self.max_entry_node = args.get("max_end_point", 1)
+        self.max_end_point: int = args.get("max_end_point", 1)
         self.alpha = args.get("alpha", 1)  # Define the deepness of the workflow
         self.beta = args.get("beta", 1.0)  # Define the number of task within each layer
         self.variation = args.get(
             "variation", 0.0
         )  # if there is any variation of the number of the tasks
+        self.task_generator: TaskGenerator = TaskGenerator(args=args)
+        if self.mode.lower() == "random":
+            self._DAG_generation_(self.task_generator)
 
-    def _DAG_generation_(self):
+    def _DAG_generation_(self, task_generator):
+        task_list = []
+        for i in range(self.num_tasks):
+            task = task_generator._generate_task_()
+            task_list.append(task)
 
         return
 
-
-# def draw_dags():
-#     graph = nx.Graph()s
-#     graph.add_edges_from([("m", "p"), ("n", "p"), ("o", "p"), ("p", "q")])
-#     nx.is_directed(graph)  # => False
-#     nx.is_directed_acyclic_graph(graph)  #
-#     plt.tight_layout()
-#     return
-
-
-# draw_dags()
+    def _read_DAGs_(self, path):
+        return
 
 
 class TaskGenerator:
-    def __init__(self, parent_task, **args) -> None:
+    # Currently works for random generation
+    def __init__(self, **args) -> None:
         self.mean_task_size = args.get("avg_task_size", 200)
         self.std_task_size = args.get("std_task_size", 0.2)
         self.disk_req_mean = args.get("disk_req", None)
@@ -68,7 +72,7 @@ class TaskGenerator:
         else:
             memory_req = self.memory_req_mean
 
-        new_task = Task(
+        return Task(
             datetime.now(),
             task_size=task_size,
             sla=None,

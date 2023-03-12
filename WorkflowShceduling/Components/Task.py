@@ -30,6 +30,10 @@ class Task:
         self.execution_time = None
         self.total_time = None
         self.wait_time = None
+        # Relationship
+        self.parent_task = None
+        self.children_tasks = []
+        self.deepth = None  # Can be used for algorithm verifications
 
     def _set_parent_(self, parent_task):
         if self.status == "running":
@@ -41,7 +45,7 @@ class Task:
     # def _remove_dependency_(self, to_remove):
     def _update_task_size_(self, task_size):
         if self.status == "running":
-            logging.warning("Invalid Actions : !!!!")
+            logging.warning("Invalid Actions : Job is running currently!!!!")
             logging.warning("Task is in progress")
         else:
             self.task_size = task_size
